@@ -1,8 +1,25 @@
 use rand::{self, Rng};
+use clap::Parser;
+
+/// Simple program to generate random numbers
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
+struct Args {
+    /// Minimum number
+    #[clap(long)]
+    min: i128,
+
+    /// Max number
+    #[clap(long)]
+    max: i128
+}
 
 fn main() {
-  let minimum = std::env::args().nth(1).expect("no min number").parse::<i128>().expect("no number");
-  let maximum = std::env::args().nth(2).expect("no max number").parse::<i128>().expect("no number");
+  let args = Args::parse();
+
+  let minimum = args.min;
+  let maximum = args.max;
+
   if minimum >= maximum {
     panic!("max number must be greater than min")
   } else {
