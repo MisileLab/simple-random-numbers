@@ -1,24 +1,21 @@
 use rand::{self, Rng};
-use clap::Parser;
-
-/// Simple program to generate random numbers
-#[derive(Parser, Debug)]
-#[clap(author, version, about, long_about = None)]
-struct Args {
-    /// Minimum number
-    #[clap(long)]
-    min: i128,
-
-    /// Max number
-    #[clap(long)]
-    max: i128
-}
+use clap::{Command, Arg};
 
 fn main() {
-  let args = Args::parse();
-
-  let minimum = args.min;
-  let maximum = args.max;
+  let app = Command::new("")
+    .arg(Arg::new("min")
+      .takes_value(true)
+      .allow_hyphen_values(true)
+      .help("minimum number")
+      .long("min"))
+    .arg(Arg::new("max")
+      .takes_value(true)
+      .allow_hyphen_values(true)
+      .help("maximum number")
+      .long("max"))
+    .get_matches();
+  let minimum = app.value_of("min").expect("No minimum value").parse::<i128>().expect("Invalid minimum number");
+  let maximum = app.value_of("max").expect("No maximum value").parse::<i128>().expect("Invalid maximum number");
 
   if minimum >= maximum {
     panic!("max number must be greater than min")
