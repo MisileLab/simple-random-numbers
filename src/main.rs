@@ -14,14 +14,14 @@ fn main() {
       .help("maximum number")
       .long("max"))
     .get_matches();
-  let minimum = app.get_one::<i128>("min").expect("No minimum value");
-  let maximum = app.get_one::<i128>("max").expect("No maximum value");
+  let minimum = app.get_one::<String>("min").expect("No minimum value").parse::<i128>().unwrap();
+  let maximum = app.get_one::<String>("max").expect("No maximum value").parse::<i128>().unwrap();
 
   if minimum >= maximum {
     panic!("max number must be greater than min")
   } else {
     let mut rng = rand::thread_rng();
-    let number: i128 = rng.gen_range(*minimum..*maximum);
+    let number: i128 = rng.gen_range(minimum..maximum);
     println!("number is {:?}", number);
   }
 }
